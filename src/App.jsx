@@ -1,29 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
 
-const HomePage =()=>{
-  return <>
-    <h1>Home Page</h1>
-    <a href="/about">Home</a>
-  </>
-}
-const AboutPage =()=>{
-  return <>
-    <h1>About Page</h1>
-    <img src="https://lh3.googleusercontent.com/a/AAcHTtd6PK33LD-aFRb-VHpQmb02ncxEJ6QmZn2hs7slBjg=s288-c-no"  alt="mi" />
-    <a href="/">Home</a>
-  </> 
-}
+import './App.css'
+import {EVENTS} from './consts'
+import HomePage from './pages/Home.jsx'
+import  AboutPage  from './pages/About.jsx'
+
+// eslint-disable-next-line react-refresh/only-export-components
+
+
+
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname)
+  useEffect(() => {
+    const onLocationChange = ()=>{
+      setCurrentPath(window.location.pathname)
+    }
+    window.addEventListener(EVENTS.PUSHSTATE,onLocationChange);
+    window.addEventListener(EVENTS.POPSTATE,onLocationChange);
+    return ()=>{
+      window.removeEventListener(EVENTS.PUSHSTATE,onLocationChange);
+      window.removeEventListener(EVENTS.POPSTATE,onLocationChange);
+    }
+
+  }, [])
+  
 
   return (
     <main>
       {currentPath == '/' && <HomePage/>}
       {currentPath == '/about' && <AboutPage/>}
-
     </main>
   )
 }
