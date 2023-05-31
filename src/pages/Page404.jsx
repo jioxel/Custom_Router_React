@@ -1,5 +1,5 @@
 export const Page404 = () => {
   return (
-    <div>404</div>
+    <h1>404</h1>
   )
 }
