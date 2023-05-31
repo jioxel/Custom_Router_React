@@ -1,14 +1,15 @@
 import { useEffect, useState, Children } from "react";
 import {EVENTS} from './consts'
 import {match} from 'path-to-regexp'
+import { getCurrentPath } from "./utils";
 // eslint-disable-next-line react/prop-types
 export function Router ({children,routes=[],defaultComponent:DefaultComponent =()=><h2>404</h2>}){
      
 
-  const [currentPath, setCurrentPath] = useState(window.location.pathname)
+  const [currentPath, setCurrentPath] = useState(getCurrentPath())
      useEffect(() => {
        const onLocationChange = ()=>{
-         setCurrentPath(window.location.pathname)
+         setCurrentPath(getCurrentPath())
        }
        window.addEventListener(EVENTS.PUSHSTATE,onLocationChange);
        window.addEventListener(EVENTS.POPSTATE,onLocationChange);
